@@ -184,36 +184,7 @@ jobs:
           sed -i 's#ENV#${{ env.ENV }}#g' config_github_terminal.js
           sed -i 's#CWD#${{ env.CWD }}#g' config_github_terminal.js
 
-      - name: Build NPM package
-        run: |
-          npm install
-          WEBVM_MODE=github npm run build
-
-      # Move required files for gh-pages deployment to the deployment directory $DEPLOY_DIR.
-      - name: Copy build
-        run: |
-          rm build/alpine.html
-          sudo mv build/* $DEPLOY_DIR/
-
-      # We generate index.list files for our httpfs to function properly.
-      - name: make index.list
-        shell: bash
-        run: |
-          find $DEPLOY_DIR -type d | while read -r dir;
-          do
-            index_list="$dir/index.list";
-            sudo rm -f "$index_list";
-            sudo ls "$dir" | sudo tee "$index_list" > /dev/null;
-            sudo chmod +rw "$index_list";     
-            sudo echo "created $index_list"; 
-          done
-
-      # Create a gh-pages artifact in order to deploy to gh-pages.
-      - name: Upload GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Path of the directory containing the static assets for our gh pages deployment.
-          path: ${{ env.DEPLOY_DIR }} # optional, default is _site/
+      
 
       - name: github release # To upload our final ext2 image as a github release.
         if: ${{ github.event.inputs.GITHUB_RELEASE == 'true' }}
