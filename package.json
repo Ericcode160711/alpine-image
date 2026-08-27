@@ -1,0 +1,11 @@
+{
+  "name": "alpine-image",
+  "version": "1.0.0",
+  "description": "Alpine Linux image for WebVM",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Build completed'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
